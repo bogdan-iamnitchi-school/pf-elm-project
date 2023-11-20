@@ -1,0 +1,4 @@
+{
+  "root": "../src",
+  "tests": ["Model.Interval", "Model.Date", "Model.Util", "Model.Event.Category"]
+}

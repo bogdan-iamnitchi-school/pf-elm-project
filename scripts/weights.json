@@ -1,0 +1,95 @@
+{
+  "DateTests": {
+    "Model.Date module": {
+      "Date view for full date contains the month": 0.33,
+      "Date view for full date contains the year": 0.33,
+      "Date view for year-only date contains the year": 0.34
+    }
+  },
+  "EventCategoryTests": {
+    "Model.Event.Category module": {
+      "allSelected has all categories set": 0.25,
+      "set sets selected categories correctly": 0.17,
+      "view contains 4 checkboxes": 0.5,
+      "Main.update function updates the selected event categories state when a category is deselected": 0.25,
+      "Main.update function updates the selected event categories state when a category is selected": 0.25,
+      "view contains 4 selected checkboxes": 1.5
+    }
+  },
+  "EventTests": {
+    "Model.Event module": {
+      "Children of Event view have the required fields": 2,
+      "Event view has class event": 0.5,
+      "Important events have class event-important": 0.5,
+      "sortByInterval sorts events correctly": 0.5
+    }
+  },
+  "IntervalTests": {
+    "Model.Interval module": {
+      "Interval view has class interval": 0.5,
+      "Interval view has length for full intervals": 0.5,
+      "Interval view has text \"Present\" for open intervals": 0.5
+    }
+  },
+  "PersonalDetailsTests": {
+    "Model.PersonalDetails module": {
+      "personalDetailsView tests": {
+        "Each social link has tag a": 0.5,
+        "Personal details view includes at least one contact": 1,
+        "Personal details view includes at least one social link": 0.5,
+        "Personal details view includes the intro": 0.5,
+        "Personal details view includes the name": 0.5
+      }
+    }
+  },
+  "RepoTests": {
+    "Model.Repo module": {
+      "Children of Repo view have the required fields": 0.5,
+      "Repo url should contain a link to the repo": 0.25,
+      "Repo view has class repo": 0.25,
+      "decodeRepo works correctly for repo with description": 0.5,
+      "decodeRepo works correctly for repo without description": 0.5,
+      "sortByStars sorts repos correctly": 0.5
+    }
+  },
+  "VerifyExamples": {
+    "Model": {
+      "Date": {
+        "#compare: Model.Date.compare (full 2020 Jan) (full 2020 Dec) --> LT": 0.083,
+        "#compare: Model.Date.compare (full 2020 Jan) (full 2021 Jan) --> LT": 0.083,
+        "#compare: Model.Date.compare (full 2021 Dec) (full 2021 Jan) --> GT": 0.083,
+        "#compare: Model.Date.compare (onlyYear 2019) (full 2020 Dec) --> LT": 0.083,
+        "#compare: Model.Date.compare (onlyYear 2020) (full 2020 Dec) --> GT": 0.083,
+        "#compare: Model.Date.compare (onlyYear 2020) (onlyYear 2021) --> LT": 0.085,
+        "#monthsBetween: monthsBetween (full 2020 Dec) (full 2021 Jan) --> Just 1": 0.1,
+        "#monthsBetween: monthsBetween (full 2020 Jan) (full 2020 Feb) --> Just 1": 0.1,
+        "#monthsBetween: monthsBetween (full 2020 Jan) (full 2021 Feb) --> Just 13": 0.1,
+        "#monthsBetween: monthsBetween (full 2020 Jan) (onlyYear 2021) --> Nothing": 0.1,
+        "#monthsBetween: monthsBetween (full 2020 Mar) (full 2020 Jan) --> Just 2": 0.1,
+        "#monthsBetween: monthsBetween (full 2021 Jan) (full 2020 Feb) --> Just 11": 0.1,
+        "#monthsBetween: monthsBetween (onlyYear 2020) (full 2021 Jan) --> Nothing": 0.1,
+        "#monthsBetween: monthsBetween (full 2020 Jan) (full 2020 Dec) --> Just 11": 0.1,
+        "#monthsBetween: monthsBetween (onlyYear 2020) (onlyYear 2021) --> Just 12": 0.1,
+        "#monthsBetween: monthsBetween (onlyYear 2020) (onlyYear 2022) --> Just 24": 0.1,
+        "#monthsBetweenMonths: monthsBetweenMonths Apr Jan --> 3": 0.16,
+        "#monthsBetweenMonths: monthsBetweenMonths Jan Apr --> 3": 0.17,
+        "#monthsBetweenMonths: monthsBetweenMonths Jan Jan --> 0": 0.17
+      },
+      "Event": {
+        "Category": {
+          "#allSelected: isEventCategorySelected Academic allSelected --> True": 0.125,
+          "#isEventCategorySelected: isEventCategorySelected Academic allSelected --> True": 0.125,
+          "#set: allSelected |> set Academic False |> isEventCategorySelected Academic --> False": 0.16,
+          "#set: allSelected |> set Academic False |> isEventCategorySelected Work --> True": 0.16
+        }
+      },
+      "Interval": {
+        "#compare: Model.Interval.compare (oneYear 2019) (oneYear 2020) --> LT": 0.20,
+        "#compare: Model.Interval.compare (oneYear 2019) (withDurationYears (Date.onlyYear 2020) 2) --> LT": 0.20,
+        "#compare: Model.Interval.compare (withDurationMonths 2019 Date.Feb 2) (withDurationMonths 2019 Date.Jan 2) --> GT": 0.20,
+        "#compare: Model.Interval.compare (withDurationMonths 2019 Date.Jan 2) (open (Date.onlyYear 2019)) --> LT": 0.20,
+        "#compare: Model.Interval.compare (withDurationMonths 2019 Date.Jan 2) (withDurationMonths 2019 Date.Jan 2) --> EQ": 0.20
+      }
+    }
+  }
+}
