@@ -2,7 +2,7 @@ module Model.Repo exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (class, href)
-import Json.Decode as De
+import Json.Decode as Dec
 
 
 type alias Repo =
@@ -36,7 +36,7 @@ Field mapping (JSON -> Elm):
   - stargazers\_count -> stars
 
 -}
-decodeRepo : De.Decoder Repo
+decodeRepo : Dec.Decoder Repo
 decodeRepo =
-    De.fail "Not implemented"
+    Dec.fail "Not implemented"
     -- Debug.todo "Implement Model.Repo.decodeRepo"

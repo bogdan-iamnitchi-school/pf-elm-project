@@ -96,11 +96,11 @@ If the `start` field is equal, the they are compare by the `end` fields:
 -}
 compare : Interval -> Interval -> Order
 compare (Interval intA) (Interval intB) =
-    -- EQ
-    Debug.todo "Implement Model.Interval.compare"
+    EQ
+    -- Debug.todo "Implement Model.Interval.compare"
 
 
 view : Interval -> Html msg
 view interval =
-    -- div [] []
-    Debug.todo "Implement Model.Interval.view"
+    div [] []
+    -- Debug.todo "Implement Model.Interval.view"

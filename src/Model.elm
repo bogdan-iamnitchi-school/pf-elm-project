@@ -59,8 +59,8 @@ workEvents =
     ]
 
 
-projectEvens : List Event
-projectEvens =
+projectEvents : List Event
+projectEvents =
     [ { title = "Personal project 1"
       , interval = Interval.oneYear 2018
       , description = text "Small app in Java"
@@ -90,17 +90,30 @@ projectEvens =
 
 personalDetails : PersonalDetails
 personalDetails =
-    { name = "John Doe"
-    , intro = "I like computers"
-    , contacts = [ DetailWithName "email" "john@domain.com" ]
-    , socials = [ DetailWithName "github" "https://github.com/octocat" ]
+    { name = "Iamnitchi Bogdan - Computer Science Student"
+    , intro = 
+      """👋 Hello there! I'm Bogdan, a dedicated Computer Science enthusiast with a keen interest in the dynamic world of cybersecurity. As a student in the ever-evolving field of computer science, I am on a mission to blend theory with practical application to create innovative solutions for the digital landscape.
+      💡 My journey in the realm of technology has been fueled by a passion for problem-solving and a deep curiosity about the intricacies of cybersecurity. From delving into the intricacies of cryptography to exploring the challenges of network security, I am continually fascinated by the evolving landscape of digital defense.
+      🖥️ Armed with a solid foundation in computer science principles and a knack for cybersecurity intricacies, I embark on projects that not only showcase my technical skills but also contribute to the broader conversation about digital security. Whether it's coding elegant solutions or fortifying digital fortresses, I thrive on the challenges that this ever-shifting field presents.
+      🔐 Join me on this exciting journey as I share my projects, insights, and experiences in the world of computer science and cybersecurity. Let's explore the possibilities of a secure and interconnected digital future together!"""
+    , contacts = 
+      [ DetailWithName "Phone Number" "0740953800"
+      , DetailWithName "Personal Email" "b.iamnitchi@gmail.com"
+      , DetailWithName "School Email" "iamnitchi.bogdan@student.utcluj.ro"
+      ]
+    , socials = 
+      [ DetailWithName "Facebook" "https://www.facebook.com/bogdan.iamnitchi.77" 
+      , DetailWithName "Instagram" "https://www.instagram.com/bogdaniamnitchi/" 
+      , DetailWithName "GitHub" "https://github.com/BogdanIamnitchiSchool" 
+      , DetailWithName "LinkedIn" "https://www.linkedin.com/in/bogdan-iamnitchi/" 
+      ]
     }
 
 
 initModel : Model
 initModel =
     { personalDetails = personalDetails
-    , events = Event.sortByInterval <| academicEvents ++ workEvents ++ projectEvens
+    , events = Event.sortByInterval <| academicEvents ++ workEvents ++ projectEvents
     , selectedEventCategories = allSelected
     , repos = []
     }

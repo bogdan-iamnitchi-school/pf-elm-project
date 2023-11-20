@@ -14,7 +14,7 @@ import Test.Html.Selector as S
 
 suite : Test
 suite =
-    describe "Model.Date module"
+    describe "Model.Date module" 
         [ test "Date view for year-only date contains the year" <|
             \_ ->
                 Date.view (Date.onlyYear 2010)

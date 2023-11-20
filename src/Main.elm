@@ -5,7 +5,8 @@ import Html exposing (..)
 import Html.Attributes exposing (style)
 import Html.Events exposing (..)
 import Http
-import Json.Decode as De
+import Json.Decode as Dec
+
 import Model exposing (..)
 import Model.Event as Event
 import Model.Event.Category as EventCategory
@@ -89,9 +90,9 @@ view model =
     in
     div []
         [ PersonalDetails.view model.personalDetails
-        , h2 [] [ text "Experience" ]
+        , h2 [] [ text "Experience: " ]
         , eventCategoriesView
         , eventsView
-        , h2 [] [ text "My top repos" ]
+        , h2 [] [ text "My top repos: " ]
         , reposView
         ]
