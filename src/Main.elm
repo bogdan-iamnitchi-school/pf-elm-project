@@ -30,11 +30,16 @@ main =
         , subscriptions = subscriptions
         }
 
+getRepos : Cmd Msg
+getRepos = Http.get 
+    { url = "https://api.github.com/users/bogdan-iamnitchi-school/repos"
+    , expect = Http.expectJson GotRepos (Dec.list Repo.decodeRepo) 
+    }
 
 init : () -> ( Model, Cmd Msg )
 init _ =
     ( initModel
-    , Cmd.none
+    , getRepos
     )
 
 
@@ -49,14 +54,26 @@ update msg model =
         GetRepos ->
             ( model, Cmd.none )
 
-        GotRepos res ->
-            ( model, Cmd.none )
+        GotRepos repos ->
+            ( {model 
+                | repos = 
+                    repos 
+                    |> Result.withDefault []}
+            , Cmd.none )
 
         SelectEventCategory category ->
-            ( model, Cmd.none )
+            ( {model 
+                | selectedEventCategories = 
+                    model.selectedEventCategories
+                    |> EventCategory.set category True}
+            , Cmd.none )
 
         DeselectEventCategory category ->
-            ( model, Cmd.none )
+            ( {model 
+                | selectedEventCategories = 
+                    model.selectedEventCategories
+                    |> EventCategory.set category False}
+            , Cmd.none )
 
 
 eventCategoryToMsg : ( EventCategory.EventCategory, Bool ) -> Msg
@@ -71,6 +88,7 @@ eventCategoryToMsg ( event, selected ) =
 view : Model -> Html Msg
 view model =
     let
+        backgroundColor = style "background-color" "#282A36"
         eventCategoriesView =
             EventCategory.view model.selectedEventCategories |> Html.map eventCategoryToMsg
 
@@ -93,6 +111,7 @@ view model =
         , h2 [] [ text "Experience: " ]
         , eventCategoriesView
         , eventsView
-        , h2 [] [ text "My top repos: " ]
+        , h2 [style "display" "inline"] [ text "My top repos: "]
+        , button [style "display" "inline", onClick GetRepos] [text "Fetch Repos From GitHub"]
         , reposView
         ]

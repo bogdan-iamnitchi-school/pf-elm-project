@@ -1,6 +1,6 @@
 module Model.Interval exposing (Interval, compare, full, length, oneYear, open, view, withDurationMonths, withDurationYears)
 
-import Html exposing (Html, div, p, text, span)
+import Html exposing (Html, div, p, text, span, br)
 import Html.Attributes exposing (class, style)
 import Model.Date as Date exposing (Date, Month)
 import Model.Util exposing (chainCompare)
@@ -121,8 +121,32 @@ compare (Interval intA) (Interval intB) =
 
 
 view : Interval -> Html msg
-view interval =
+view  (Interval interval) =
     -- Debug.todo "Implement Model.Interval.view"
-    span [class "interval"] [
-        
+
+    let
+        startView = Date.view interval.start
+        endView = 
+            interval.end
+            |> Maybe.map Date.view 
+            |> Maybe.withDefault (text <| "Present")
+        durationView = 
+            case length (Interval interval) of
+                Just (years, 0) -> 
+                    text <| String.fromInt years ++ " years"
+                Just (years, months) -> 
+                    text <| String.fromInt years ++ " years" ++ " - " ++ String.fromInt months ++ " months"
+                _ -> text "Still working ..."
+    in
+    
+
+    span [class "interval"] 
+    [ p [style "display" "inline"] [text "Started: "]
+    , span [class "interval-start"] [startView]
+    , br [] []
+    , p [style "display" "inline"] [text "Finished: "]
+    , span [class "interval-end"] [endView]
+    , br [] []
+    , p [style "display" "inline"] [text "Duration: "]
+    , span [class "interval-length"] [durationView]
     ]

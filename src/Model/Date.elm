@@ -1,10 +1,10 @@
 module Model.Date exposing (Date, Month(..), compare, compareMonth, full, month, monthToString, monthsBetween, monthsBetweenMonths, offsetMonths, onlyYear, view, year)
 
-import Html exposing (Html, div, text)
+import Html exposing (Html, div, text, p)
 import Model.Util exposing (chainCompare)
 import Maybe exposing (withDefault)
 import Html exposing (span)
-import Html.Attributes exposing (class)
+import Html.Attributes exposing (class, style, hidden)
 import Html.Attributes exposing (disabled)
 
 
@@ -151,6 +151,7 @@ view (Date d) =
             |> Maybe.map (\_ -> True)
             |> Maybe.withDefault False
             |> not
+
         solveMonth = 
             d.month
             |> Maybe.map monthToString
@@ -158,9 +159,10 @@ view (Date d) =
     in
     
 
-    span [] 
-    [ span [] [text <| "Year: " ++ String.fromInt(d.year)]
-    , span [disabled yes] [text <| "Month: " ++ solveMonth]
+    p [class "date", style "display" "inline"] 
+    [ span [] [text <| String.fromInt(d.year)]
+    , span [] [text " - "]
+    , span [hidden yes] [text <| "month: " ++ solveMonth]
     ]
 
 

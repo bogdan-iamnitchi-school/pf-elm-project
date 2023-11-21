@@ -61,11 +61,11 @@ workEvents =
 
 projectEvents : List Event
 projectEvents =
-    [ { title = "Personal project 1"
+    [ { title = "PF Elm Project"
       , interval = Interval.oneYear 2018
-      , description = text "Small app in Java"
+      , description = text "Portofolio Website Elm"
       , category = Project
-      , url = Nothing
+      , url = Just "https://github.com/bogdan-iamnitchi-school/pf-elm-project"
       , tags = []
       , important = False
       }

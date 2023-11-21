@@ -35,8 +35,14 @@ categoryView category =
 
 sortByInterval : List Event -> List Event
 sortByInterval events =
-    events
     -- Debug.todo "Implement Event.sortByInterval"
+    let
+        compInterval e1 e2 =
+            Interval.compare e1.interval e2.interval
+            
+    in
+    -- List.sortWith (Interval.compare) events
+    List.sortWith (\e1 e2 -> Interval.compare e1.interval e2.interval) events
 
 
 view : Event -> Html Never
@@ -49,34 +55,33 @@ view event =
                 class ""
         marginEvent = style "margin" "5px 20px 5px 20px"
         border = style "border" "solid 1px"
+        borderStyle = style "border-style" "dotted"
         paddingLeft = style "padding-left" "20px"
-
-        textCategory = categoryView event.category
         textUrl =
             event.url
-            |> Maybe.map (\url -> text url)
+            |> Maybe.map (\url -> a [href url] [text  url])
             |> Maybe.withDefault (text "No URL available")
 
     in
 
     -- Debug.todo "Implement the Model.Event.view function"
-    div [class "event", classImportant, border, marginEvent, paddingLeft] 
+    div [class "event", classImportant, border, borderStyle, marginEvent, paddingLeft] 
     [ p [class "event-title"] 
         [text <| "Title: " ++ event.title]
 
     -- De completat
     , p [class "event-interval"] 
-        []
+        [Interval.view event.interval]
 
     , p [class "event-description"] 
-        [event.description]
+        [text "Description: ", event.description]
 
     , p [class "event-category"] 
-        [textCategory]
+        [text "Category: ", categoryView event.category]
 
     , p [class "event-url"] 
-        [textUrl]
+        [text "Link: ", textUrl]
 
-    , p [class "event-tags"] 
-        [textUrl]
+    , p [class "event-tags"]
+        []
     ]

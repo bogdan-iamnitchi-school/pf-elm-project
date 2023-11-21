@@ -11,6 +11,20 @@ type EventCategory
     | Project
     | Award
 
+categoryView : EventCategory -> String
+categoryView category =
+    case category of
+        Academic ->
+            "Academic"
+
+        Work ->
+            "Work"
+
+        Project ->
+            "Project"
+
+        Award ->
+            "Award"
 
 eventCategories : List EventCategory
 eventCategories =
@@ -20,7 +34,9 @@ eventCategories =
 {-| Type used to represent the state of the selected event categories
 -}
 type SelectedEventCategories
-    = TODOCompleteThisType
+    = AllSelected
+    | NoneSelected
+    | SelectedCategories (List EventCategory)
 
 
 
@@ -31,8 +47,8 @@ type SelectedEventCategories
 -}
 allSelected : SelectedEventCategories
 allSelected =
-    TODOCompleteThisType
     -- Debug.todo "Implement Model.Event.Category.allSelected"
+    AllSelected
 
 
 {-| Returns an instance of `SelectedEventCategories` with no categories selected
@@ -42,8 +58,8 @@ allSelected =
 -}
 noneSelected : SelectedEventCategories
 noneSelected =
-    TODOCompleteThisType
     -- Debug.todo "Implement Model.Event.Category.noneSelected"
+    NoneSelected
 
 {-| Given a the current state and a `category` it returns whether the `category` is selected.
 
@@ -52,8 +68,11 @@ noneSelected =
 -}
 isEventCategorySelected : EventCategory -> SelectedEventCategories -> Bool
 isEventCategorySelected category current =
-    False
     -- Debug.todo "Implement Model.Event.Category.isEventCategorySelected"
+    case current of
+        AllSelected -> True
+        NoneSelected -> False
+        SelectedCategories selectedCategories -> List.member category selectedCategories
 
 
 {-| Given an `category`, a boolean `value` and the current state, it sets the given `category` in `current` to `value`.
@@ -65,8 +84,37 @@ isEventCategorySelected category current =
 -}
 set : EventCategory -> Bool -> SelectedEventCategories -> SelectedEventCategories
 set category value current =
-    current
     -- Debug.todo "Implement Model.Event.Category.set"
+    case (current, value) of
+        (AllSelected, False) -> 
+            eventCategories 
+            |> List.filter (\c -> c /= category)
+            |> SelectedCategories
+        (AllSelected, True) -> AllSelected
+
+        (NoneSelected, True) -> 
+            eventCategories 
+            |> List.filter (\c -> c == category)
+            |> SelectedCategories
+        (NoneSelected, False) -> NoneSelected
+
+        (SelectedCategories scat, False) ->
+            case (List.member category scat, List.length scat == 1) of
+                (True, True) -> NoneSelected
+                (True, False) -> 
+                    scat 
+                    |> List.filter (\c -> c /= category)
+                    |> SelectedCategories
+                _ -> SelectedCategories scat
+
+        (SelectedCategories scat, True) ->
+            case (not (List.member category scat), List.length scat == 3) of
+                (True, True) -> AllSelected
+                (True, False) -> 
+                    scat 
+                    |> List.append [category]
+                    |> SelectedCategories
+                _ -> SelectedCategories scat
 
 
 checkbox : String -> Bool -> EventCategory -> Html ( EventCategory, Bool )
@@ -79,5 +127,12 @@ checkbox name state category =
 
 view : SelectedEventCategories -> Html ( EventCategory, Bool )
 view model =
-    div [] []
     --Debug.todo "Implement the Model.Event.Category.view function"
+    let
+        displayCheckbox = 
+            eventCategories
+            |> List.map (\c -> checkbox (categoryView c) (isEventCategorySelected c model) c)
+    in
+
+    div [class "selected-event-categories"] <| displayCheckbox
+        
