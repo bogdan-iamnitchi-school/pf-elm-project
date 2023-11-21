@@ -1,6 +1,6 @@
 module Model.Interval exposing (Interval, compare, full, length, oneYear, open, view, withDurationMonths, withDurationYears)
 
-import Html exposing (Html, div, p, text)
+import Html exposing (Html, div, p, text, span)
 import Html.Attributes exposing (class, style)
 import Model.Date as Date exposing (Date, Month)
 import Model.Util exposing (chainCompare)
@@ -96,11 +96,33 @@ If the `start` field is equal, the they are compare by the `end` fields:
 -}
 compare : Interval -> Interval -> Order
 compare (Interval intA) (Interval intB) =
-    EQ
     -- Debug.todo "Implement Model.Interval.compare"
+    let
+        compStart = Date.compare intA.start intB.start
+        compInterval = 
+            case (length (Interval intA), length (Interval intB)) of 
+                (Just (yearsA, monthsA), Just  (yearsB, monthsB)) ->
+                    
+                    Basics.compare yearsA yearsB
+                    |> chainCompare (Basics.compare monthsA monthsB)
+
+                _ -> EQ
+
+        compEnd = 
+            case (intA.end, intB.end) of 
+                (Just _, Just _) -> compInterval
+                (Just _, Nothing) -> LT
+                (Nothing, Just _) -> GT
+                (Nothing, Nothing) -> EQ
+    in
+    
+    compStart
+    |> chainCompare compEnd
 
 
 view : Interval -> Html msg
 view interval =
-    div [] []
     -- Debug.todo "Implement Model.Interval.view"
+    span [class "interval"] [
+        
+    ]

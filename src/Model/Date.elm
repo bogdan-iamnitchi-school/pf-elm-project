@@ -3,6 +3,9 @@ module Model.Date exposing (Date, Month(..), compare, compareMonth, full, month,
 import Html exposing (Html, div, text)
 import Model.Util exposing (chainCompare)
 import Maybe exposing (withDefault)
+import Html exposing (span)
+import Html.Attributes exposing (class)
+import Html.Attributes exposing (disabled)
 
 
 type Date
@@ -55,9 +58,21 @@ The month fields are handled as follows:
 
 -}
 monthsBetween : Date -> Date -> Maybe Int
-monthsBetween dA dB =
+monthsBetween (Date dA) (Date dB) =
     --Debug.todo "Implement Date.monthsBetween"
-    Nothing
+
+    let
+        totalMonths m1 m2 = abs ((dA.year - dB.year) * 12 + monthToInt m1 - monthToInt m2)
+    in
+
+    case (dA.month, dB.month) of
+        (Just m1, Just m2) -> 
+            Just <| totalMonths m1 m2
+            
+        (Nothing, Nothing) -> 
+            Just <| abs (dA.year - dB.year) * 12 
+            
+        _ -> Nothing    
 
 
 {-| Compares two dates.
@@ -129,8 +144,24 @@ offsetMonths months (Date d) =
 
 view : Date -> Html msg
 view (Date d) =
-    div [] []
     -- Debug.todo "Implement Model.Date.view"
+    let
+        yes = 
+            d.month
+            |> Maybe.map (\_ -> True)
+            |> Maybe.withDefault False
+            |> not
+        solveMonth = 
+            d.month
+            |> Maybe.map monthToString
+            |> Maybe.withDefault "No month"
+    in
+    
+
+    span [] 
+    [ span [] [text <| "Year: " ++ String.fromInt(d.year)]
+    , span [disabled yes] [text <| "Month: " ++ solveMonth]
+    ]
 
 
 
