@@ -161,8 +161,7 @@ view (Date d) =
 
     p [class "date", style "display" "inline"] 
     [ span [] [text <| String.fromInt(d.year)]
-    , span [] [text " - "]
-    , span [hidden yes] [text <| "month: " ++ solveMonth]
+    , span [hidden yes] [text <| " ,month: " ++ solveMonth]
     ]
 
 

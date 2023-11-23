@@ -52,7 +52,7 @@ update : Msg -> Model -> ( Model, Cmd Msg )
 update msg model =
     case msg of
         GetRepos ->
-            ( model, Cmd.none )
+            ( model, getRepos )
 
         GotRepos repos ->
             ( {model 
@@ -88,7 +88,7 @@ eventCategoryToMsg ( event, selected ) =
 view : Model -> Html Msg
 view model =
     let
-        backgroundColor = style "background-color" "#282A36"
+        marginTop = style "margin-top" "20px"
         eventCategoriesView =
             EventCategory.view model.selectedEventCategories |> Html.map eventCategoryToMsg
 
@@ -111,7 +111,7 @@ view model =
         , h2 [] [ text "Experience: " ]
         , eventCategoriesView
         , eventsView
-        , h2 [style "display" "inline"] [ text "My top repos: "]
-        , button [style "display" "inline", onClick GetRepos] [text "Fetch Repos From GitHub"]
+        , h2 [style "display" "inline", marginTop] [ text "My top repos: "]
+        , button [style "display" "inline", marginTop,onClick GetRepos] [text "Fetch Repos From GitHub"]
         , reposView
         ]

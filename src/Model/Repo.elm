@@ -54,7 +54,7 @@ view repo =
 sortByStars : List Repo -> List Repo
 sortByStars repos =
     -- Debug.todo "Implement Model.Repo.sortByStars"
-    List.sortBy (\repo -> -repo.stars) repos
+    List.sortBy (.stars >> (\star -> -star)) repos
 
 
 {-| Deserializes a JSON object to a `Repo`.

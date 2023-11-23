@@ -31,6 +31,7 @@ view details =
         contacts = 
             details.contacts
             |> List.map (\c -> li [class "contact-detail"] <| textContact c.name c.detail)
+            
         socials  = 
             details.socials
             |> List.map (\s -> li [class "social-link"] <| textSocial s.name s.detail)

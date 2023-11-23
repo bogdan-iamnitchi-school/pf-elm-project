@@ -36,12 +36,7 @@ categoryView category =
 sortByInterval : List Event -> List Event
 sortByInterval events =
     -- Debug.todo "Implement Event.sortByInterval"
-    let
-        compInterval e1 e2 =
-            Interval.compare e1.interval e2.interval
-            
-    in
-    -- List.sortWith (Interval.compare) events
+
     List.sortWith (\e1 e2 -> Interval.compare e1.interval e2.interval) events
 
 
@@ -53,7 +48,7 @@ view event =
                 class "event-important"
             else
                 class ""
-        marginEvent = style "margin" "5px 20px 5px 20px"
+        margin = style "margin" "5px 20px 5px 20px"
         border = style "border" "solid 1px"
         borderStyle = style "border-style" "dotted"
         paddingLeft = style "padding-left" "20px"
@@ -65,11 +60,10 @@ view event =
     in
 
     -- Debug.todo "Implement the Model.Event.view function"
-    div [class "event", classImportant, border, borderStyle, marginEvent, paddingLeft] 
+    div [class "event", classImportant, border, borderStyle, margin, paddingLeft] 
     [ p [class "event-title"] 
         [text <| "Title: " ++ event.title]
 
-    -- De completat
     , p [class "event-interval"] 
         [Interval.view event.interval]
 
@@ -82,6 +76,5 @@ view event =
     , p [class "event-url"] 
         [text "Link: ", textUrl]
 
-    , p [class "event-tags"]
-        []
+    , p [class "event-tags"] <| List.map (\t -> text t) event.tags
     ]
