@@ -4,6 +4,7 @@
 - `npm i elm-verify-examples -g`
 - `elm install elm/url`
 
-in folder proiect, comenzile specificate
+In project folder:
 - `npm install`
 - `npm run grade`
+- `npm run test`
